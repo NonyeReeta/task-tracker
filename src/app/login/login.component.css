@@ -1,0 +1,140 @@
+section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: url(../../assets/taskbg.jpeg);
+    filter: blur(5px);
+    width: 100%;
+    height: 100vh;
+    background-position: center center;
+    background-size: cover;
+    z-index: -1;
+}
+
+.form-holder {
+    padding: 40px;
+    width: 80%;
+    box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.2);
+    background: #fff;
+    border-radius: 16px;
+    position: relative;
+    z-index: 10;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+.forget-pass {
+    font-size: 10px;
+    align-self: flex-end;
+    margin: 5px 0;
+    cursor: pointer;
+    color: #030637;
+    transform: all;
+}
+
+.forget-pass:hover {
+    transform: scalex(1.1);
+    text-decoration: underline;
+}
+
+:active, :hover, :focus {
+  outline: 0!important;
+  outline-offset: 0;
+}
+::before,
+::after {
+  position: absolute;
+  content: "";
+}
+
+.btn-cont {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.button {
+    position: relative;
+    display: inline-block;
+    width: auto; height: auto;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    margin-top: 10px;
+    min-width: 150px;
+}
+
+.button span {         
+    position: relative;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    top: 0;
+    left: 0;
+    padding: 5px 10px;
+    width: 100%;
+    transition: 0.3s;
+}
+
+.button-1::before {
+    background-color: rgb(28, 31, 30);
+    transition: 0.3s ease-out;
+}
+
+.button-1 span {
+    color: rgb(255,255,255);
+    border: 1px solid rgb(28, 31, 30);
+    transition: 0.2s 0.1s;
+}
+
+.button-1 span:hover {
+    color: rgb(28, 31, 30);
+    transition: 0.2s 0.1s;
+}
+
+.button.hover-filled-opacity::before {
+    top:0;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 1;
+}
+
+.button.hover-filled-opacity:hover::before {
+    opacity: 0;
+}
+
+.line {
+    height: 5px;
+    border-bottom: 1px solid #bcadad;
+    margin-bottom: 10px;
+}
+
+
+.buttom-text, .buttom-text > a {
+    font-size: 12px;
+    transition: all;
+}
+
+.buttom-text > a {
+    color: #030637;
+}
+
+.buttom-text > a:hover {
+    transform: scaley(1.1);
+    text-decoration: underline;
+}
