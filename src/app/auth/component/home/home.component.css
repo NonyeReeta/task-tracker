@@ -1,0 +1,56 @@
+section {
+    background: #000;
+    width: 100vw;
+    height: 100vh;
+    padding: 50px 20px 0;
+}
+
+.tracker-title {
+    color: #fff;
+    width: 80px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 20px 20px 0 0;
+    cursor: pointer;
+}
+
+.open {
+    background-color: #030637;
+}
+
+.closed {
+    background-color: #910A67;
+}
+
+.pending {
+    background-color: #3C0753;
+}
+
+p {
+    margin: 0;
+}
+
+.tracker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.tasks-container {
+    width: 250px;
+    height: 550px;
+    max-width: 100%;
+    flex-grow: 1;
+    flex-basis: 250px;
+    overflow-y: auto;
+}
+
+.open-cont {
+    border: 1px solid #030637;
+}
+
+.closed-cont {
+    border: 1px solid #910A67;
+}
