@@ -4,30 +4,56 @@
             <div class="tracker-title open">
                 <p>Open</p>
             </div>
-            <div class="tasks-container open-cont">
-                <div class="task">
-    
-                </div>
+            <div
+                #openlist="cdkDropList"
+                cdkDropList
+                [cdkDropListData]="open_tasks"
+                [cdkDropListConnectedTo]="[pendinglist, closedlist]"
+                (cdkDropListDropped)="drop($event)" 
+                class="tasks-container open-cont">
+                @for (task of open_tasks; track task) {
+                    <div cdkDrag class="task task-open">
+                        <h4>{{task.title}}</h4>
+                        <p>{{task.description}}</p>
+                    </div>
+                }
             </div>
         </div> 
         <div>
             <div class="tracker-title pending">
                 <p>Pending</p>
             </div>
-            <div class="tasks-container closed-cont">
-                <div class="task">
-
-                </div>
+            <div
+                #pendinglist="cdkDropList"
+                cdkDropList
+                [cdkDropListData]="pending_tasks"
+                [cdkDropListConnectedTo]="[openlist, closedlist]"
+                (cdkDropListDropped)="drop($event)"
+                class="tasks-container pending-cont">
+                @for (task of pending_tasks; track task) {
+                    <div cdkDrag class="task task-open">
+                        <h4>{{task.title}}</h4>
+                        <p>{{task.description}}</p>
+                    </div>
+                }
             </div>
         </div>
         <div>
             <div class="tracker-title closed">
                 <p>Closed</p>
             </div>
-            <div class="tasks-container closed-cont">
-                <div class="task">
-
-                </div>
+            <div
+                #closedlist="cdkDropList"
+                cdkDropList
+                [cdkDropListData]="closed_tasks"
+                [cdkDropListConnectedTo]="[pendinglist, openlist]"
+                (cdkDropListDropped)="drop($event)" class="tasks-container closed-cont">
+                @for (task of closed_tasks; track task) {
+                    <div cdkDrag class="task task-open">
+                        <h4>{{task.title}}</h4>
+                        <p>{{task.description}}</p>
+                    </div>
+                }
             </div>
         </div>
        
