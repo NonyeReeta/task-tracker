@@ -1,4 +1,7 @@
 <section>
+    <div class="add-new">
+        <button (click)="show_new_task_modal = true">New Task</button>
+    </div>
     <div class="tracker">
         <div>
             <div class="tracker-title open">
@@ -7,11 +10,11 @@
             <div
                 #openlist="cdkDropList"
                 cdkDropList
-                [cdkDropListData]="open_tasks"
+                [cdkDropListData]="progress_tasks"
                 [cdkDropListConnectedTo]="[pendinglist, closedlist]"
                 (cdkDropListDropped)="drop($event)" 
                 class="tasks-container open-cont">
-                @for (task of open_tasks; track task) {
+                @for (task of progress_tasks; track task) {
                     <div cdkDrag class="task task-open">
                         <h4>{{task.title}}</h4>
                         <p>{{task.description}}</p>
@@ -45,10 +48,10 @@
             <div
                 #closedlist="cdkDropList"
                 cdkDropList
-                [cdkDropListData]="closed_tasks"
+                [cdkDropListData]="completed_tasks"
                 [cdkDropListConnectedTo]="[pendinglist, openlist]"
                 (cdkDropListDropped)="drop($event)" class="tasks-container closed-cont">
-                @for (task of closed_tasks; track task) {
+                @for (task of completed_tasks; track task) {
                     <div cdkDrag class="task task-open">
                         <h4>{{task.title}}</h4>
                         <p>{{task.description}}</p>
@@ -58,5 +61,53 @@
         </div>
        
     </div>
-    
+
 </section>
+
+    <!-- new task modal -->
+<div class="modal-holder" *ngIf="!show_new_task_modal">
+    <i class="fa-solid fa-xmark"></i>
+    <div class="form-holder">
+        <h2>New task</h2>
+        <form class="">
+            <div class="form-input mb-3">
+                <label for="title">Title</label>
+                <input type="text" placeholder="Title" class="form-control"  autocomplete="off">
+            </div>
+            <div class="form-input mb-3">
+                <label for="desc">Description</label>
+                <textarea name="desc" id="desc" cols="30" rows="" placeholder="Enter task description here" class="form-control"></textarea>
+            </div>
+            <div class="form-input mb-3">
+                <label for="date">Due date</label>
+                <input type="date" id="date">
+            </div>
+            <div class="form-input mb-3">
+                <label for="date">Priority</label>
+                <div class="radio-input">
+                    <input type="radio" id="high" name="option" value="high">
+                    <label for="high">High</label><br>
+                    <input type="radio" id="mid" name="option" value="mid">
+                    <label for="mid">Mid</label><br>
+                    <input type="radio" id="low" name="option" value="low">
+                    <label for="low">Low</label><br>
+                </div>
+            </div>
+            <div class="form-input mb-3">
+                <label for="date">Status</label>
+                <div class="radio-input">
+                    <input type="radio" id="pending" name="option" value="pending">
+                    <label for="pending">Pending</label><br>
+                    <input type="radio" id="progress" name="option" value="progress">
+                    <label for="progress">In progress</label><br>
+                    <input type="radio" id="completed" name="option" value="completed">
+                    <label for="completed">Completed</label><br>
+                </div>
+            </div>
+        </form>
+        <div  class="add-btn">
+            <button>Add</button>
+        </div>
+    </div>
+</div>
+

@@ -6,6 +6,8 @@ import {
   CdkDrag,
   CdkDropList
 } from '@angular/cdk/drag-drop';
+import { CommonModule } from '@angular/common';
+
 
 interface Task {
   title: string,
@@ -15,16 +17,19 @@ interface Task {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CdkDropList, CdkDrag],
+  imports: [CdkDropList, CdkDrag, CommonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 
 export class HomeComponent {
 
-  open_tasks:Task[] = [{title: 'TLorem ipsum dolor sit amet', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent fermentum euismod tempus.'}, {title: 'TLorem ipsum dolor sit amet', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent fermentum euismod tempus.'}];
-  closed_tasks:Task[] = [{title: 'TLorem ipsum dolor sit amet', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent fermentum euismod tempus.'}];
   pending_tasks:Task[] = [{title: 'TLorem ipsum dolor sit amet', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent fermentum euismod tempus.'}];
+  progress_tasks:Task[] = [{title: 'TLorem ipsum dolor sit amet', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent fermentum euismod tempus.'}, {title: 'TLorem ipsum dolor sit amet', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent fermentum euismod tempus.'}];
+  completed_tasks:Task[] = [{title: 'TLorem ipsum dolor sit amet', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent fermentum euismod tempus.'}];
+
+  show_new_task_modal:boolean = false;
+ 
 
   drop(event: CdkDragDrop<Task[]>) {
     console.log(event)
@@ -38,6 +43,13 @@ export class HomeComponent {
         event.currentIndex,
       );
     }
+  };
+
+  ngOnInit() {
+    // load all task
+    this.loadAllTasks();
   }
+
+  loadAllTasks() {}
 
 }

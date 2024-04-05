@@ -4,6 +4,22 @@ section {
     padding: 50px 0 20px;
 }
 
+.add-new {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 20px;
+}
+
+.add-new > button {
+    background: #fff;
+    border: none;
+    color: #252525;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 1.3rem;
+}
+
 .tracker-title {
     color: #fff;
     width: 80px;
@@ -107,18 +123,72 @@ p {
                 0 3px 14px 2px rgba(0, 0, 0, 0.12);
   }
   
-  .cdk-drag-placeholder {
-    opacity: 0;
-  }
-  
-  .cdk-drag-animating {
-    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-  }
-  
-  .taxk:last-child {
+.cdk-drag-placeholder {
+opacity: 0;
+}
+
+.cdk-drag-animating {
+transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.taxk:last-child {
+border: none;
+}
+
+.tasks-container.cdk-drop-list-dragging .task:not(.cdk-drag-placeholder) {
+transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.modal-holder {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100%;
+    background-color: rgba(16, 15, 15, 0.5);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.form-holder {
+    background: #fff;
+    color: #252525;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+.form-input {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-input > label {
+    font-weight: 600;
+}
+
+.radio-input {
+    display: flex;
+    gap: 5px;
+}
+
+.add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.add-btn > button {
+    background: #030637;
     border: none;
-  }
-  
-  .tasks-container.cdk-drop-list-dragging .task:not(.cdk-drag-placeholder) {
-    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-  }
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 1.3rem;
+    width: 150px;
+}
