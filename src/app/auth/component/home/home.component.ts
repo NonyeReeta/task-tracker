@@ -32,7 +32,6 @@ export class HomeComponent {
   task:any = {};
 
   show_new_task_modal:boolean = false;
-  is_operation_in_progress:boolean = false;
 
   task_to_edit:any = {};
   search_query:string = '';
@@ -51,7 +50,7 @@ export class HomeComponent {
     due_date: new FormControl(null, Validators.required),
     priority: new FormControl(null, Validators.required),
     status: new FormControl(null, Validators.required),
-    id: new FormControl(this.generateRandomId(), Validators.required)
+    // id: new FormControl(this.generateRandomId(), Validators.required)
   })
 
   ngOnInit() {
@@ -70,9 +69,8 @@ export class HomeComponent {
   AddTask() {
     if(Object.keys(this.task_to_edit).length > 0) {
       this.deleteTask(this.task_to_edit);
-    }
-    this.is_operation_in_progress = true;
-    // add new task and set operation progress to false;
+    };
+    this.taskForm.value.id = this.generateRandomId();
     if(this.taskForm.value.status === 'pending') {
       this.pending_tasks.push(this.taskForm.value);
       this.taskService.saveData('pending_tasks', this.pending_tasks);
@@ -82,8 +80,7 @@ export class HomeComponent {
     } else {
       this.completed_tasks.push(this.taskForm.value);
       this.taskService.saveData('completed_tasks', this.completed_tasks);
-    }
-    this.is_operation_in_progress = false;
+    };
     this.show_new_task_modal = false;
     this.taskForm.reset();
   };
@@ -143,7 +140,9 @@ export class HomeComponent {
 
   // function to generate a random id for each task
   generateRandomId(): string {
-    if(Object.keys(this.task_to_edit).length > 0) return this.task_to_edit.id;
+    if(Object.keys(this.task_to_edit).length > 0) {
+      return this.task_to_edit.id;
+    };
     return Math.random().toString(36).substr(2, 9); 
   }
 
@@ -152,7 +151,7 @@ export class HomeComponent {
     let list_to_filter: any[];
     let search_query: string;
   
-    // Determine which list and search query to use based on the list type
+    // identify whuch query and list to filter
     switch (list_type) {
       case 'pending':
         list_to_filter = this.pending_tasks;
