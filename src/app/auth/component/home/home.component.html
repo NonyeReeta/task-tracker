@@ -17,7 +17,7 @@
                 @for (task of pending_tasks; track task) {
                     <div cdkDrag class="task task-open" (click)="viewTask(task); show_task = true">
                         <h4>{{task.title}}</h4>
-                        <p>{{task.description}}</p>
+                        <p>{{ task.description.length > 200 ? task.description.substring(0, 200) + '...' : task.description }}</p>
                         <div class="task-footer">
                             <p>Due date: {{task.due_date | date: 'dd/MM/yyyy'}}</p>
                             <p>Priority: {{task.priority | titlecase}}</p>
@@ -41,7 +41,7 @@
                 @for (task of progress_tasks; track task) {
                     <div cdkDrag class="task task-open" (click)="viewTask(task); show_task = true">
                         <h4>{{task.title}}</h4>
-                        <p>{{task.description}}</p>
+                        <p>{{ task.description.length > 200 ? task.description.substring(0, 200) + '...' : task.description }}</p>
                         <div class="task-footer">
                             <p>Due date: {{task.due_date | date: 'dd/MM/yyyy'}}</p>
                             <p>Priority: {{task.priority | titlecase}}</p>
@@ -64,7 +64,7 @@
                 @for (task of completed_tasks; track task) {
                     <div cdkDrag class="task task-open" (click)="viewTask(task); show_task = true">
                         <h4>{{task.title}}</h4>
-                        <p>{{task.description}}</p>
+                        <p>{{ task.description.length > 200 ? task.description.substring(0, 200) + '...' : task.description }}</p>
                         <div class="task-footer">
                             <p>Due date: {{task.due_date | date: 'dd/MM/yyyy'}}</p>
                             <p>Priority: {{task.priority | titlecase}}</p>
@@ -116,8 +116,8 @@
                 <div class="radio-input">
                     <input type="radio" formControlName="status" id="pending"  value="pending">
                     <label for="pending">Pending</label><br>
-                    <input type="radio" formControlName="status" id="in progress"  value="progress">
-                    <label for="progress">In progress</label><br>
+                    <input type="radio" formControlName="status" id="in progress"  value="in progress">
+                    <label for="in progress">In progress</label><br>
                     <input type="radio" formControlName="status" id="completed"  value="completed">
                     <label for="completed">Completed</label><br>
                 </div>
@@ -137,7 +137,7 @@
         </div>
         <div class="task-view">
             <h4>{{task.title}}</h4>
-            <p>{{task.description}}</p>
+            <p class="desc-view">{{task.description}}</p>
             <div class="task-footer">
                 <p>Due date: {{task.due_date | date: 'dd/MM/yyyy'}}</p>
                 <p>Priority: {{task.priority | titlecase}}</p>

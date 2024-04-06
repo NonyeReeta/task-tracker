@@ -52,14 +52,13 @@ export class HomeComponent {
         event.previousIndex,
         event.currentIndex,
       );
-      console.log(event.container.data.at(-1));
       let t:Task | undefined = event.container.data.at(-1);
       if(t !== undefined) {
         // remove task from its list
         this.deleteTask(t);
         // update the task status and add to new list
         t.status = status;
-        this.taskService.saveData('progress_tasks', this.progress_tasks);
+        this.dropChangeStatus(status);
       }
     }
   };
@@ -78,6 +77,7 @@ export class HomeComponent {
   })
 
   ngOnInit() {
+    // uncomment the clearLocalstorage function to clear all saved task for test purpose
     // this.taskService.clearLocalStorage();
     this.loadAllTasks();
   };
@@ -95,7 +95,7 @@ export class HomeComponent {
     if(this.taskForm.value.status === 'pending') {
       this.pending_tasks.push(this.taskForm.value);
       this.taskService.saveData('pending_tasks', this.pending_tasks);
-    } else if (this.taskForm.value.status === 'progress') {
+    } else if (this.taskForm.value.status === 'in progress') {
       this.progress_tasks.push(this.taskForm.value);
       this.taskService.saveData('progress_tasks', this.progress_tasks);
     } else {
@@ -117,7 +117,7 @@ export class HomeComponent {
         this.pending_tasks.splice(index_to_delete, 1);
         this.taskService.saveData('pending_tasks', this.pending_tasks);
       }
-    } else if (task.status === 'progress') {
+    } else if (task.status === 'in progress') {
       const index_to_delete = this.progress_tasks.findIndex(t => t.id === task.id);
       if(index_to_delete !== -1) {
         this.progress_tasks.splice(index_to_delete, 1);
@@ -134,6 +134,16 @@ export class HomeComponent {
   };
 
   updateTask(task: Task) {};
+
+  dropChangeStatus(status: string) {
+    if(status === 'pending') {
+      this.taskService.saveData('pending_tasks', this.pending_tasks);
+    } else if (status === 'in progress') {
+      this.taskService.saveData('progress_tasks', this.progress_tasks);
+    } else {
+      this.taskService.saveData('completed_tasks', this.completed_tasks);
+    }
+  };
 
   // function to generate a random id for each task
   generateRandomId(): string {
