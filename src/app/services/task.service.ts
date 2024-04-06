@@ -17,4 +17,9 @@ export class TaskService {
       const data = localStorage.getItem(key);
       return data ? JSON.parse(data) : null;
     }
+
+    // clear storage for test
+    clearLocalStorage() {
+      localStorage.clear();
+    }
 }

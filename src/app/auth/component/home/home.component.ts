@@ -16,7 +16,8 @@ interface Task {
   description: string,
   status: string,
   due_date: Date,
-  priority: string
+  priority: string,
+  id: string
 }
 
 @Component({
@@ -40,8 +41,8 @@ export class HomeComponent {
   is_operation_in_progress:boolean = false;
  
 
-  drop(event: CdkDragDrop<Task[]>) {
-    console.log(event)
+  // function to detect drop and change task status
+  drop(event: CdkDragDrop<Task[]>, status: string) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -51,6 +52,15 @@ export class HomeComponent {
         event.previousIndex,
         event.currentIndex,
       );
+      console.log(event.container.data.at(-1));
+      let t:Task | undefined = event.container.data.at(-1);
+      if(t !== undefined) {
+        // remove task from its list
+        this.deleteTask(t);
+        // update the task status and add to new list
+        t.status = status;
+        this.taskService.saveData('progress_tasks', this.progress_tasks);
+      }
     }
   };
 
@@ -63,11 +73,12 @@ export class HomeComponent {
     description: new FormControl(null, Validators.required),
     due_date: new FormControl(null, Validators.required),
     priority: new FormControl(null, Validators.required),
-    status: new FormControl(null, Validators.required)
+    status: new FormControl(null, Validators.required),
+    id: new FormControl(this.generateRandomId(), Validators.required)
   })
 
   ngOnInit() {
-    // load all task
+    // this.taskService.clearLocalStorage();
     this.loadAllTasks();
   };
 
@@ -80,22 +91,53 @@ export class HomeComponent {
 
   AddTask() {
     this.is_operation_in_progress = true;
-    // add new task to pending and set operation progress to false;
-    this.pending_tasks.push(this.taskForm.value);
-    this.taskService.saveData('pending_tasks', this.pending_tasks);
+    // add new task and set operation progress to false;
+    if(this.taskForm.value.status === 'pending') {
+      this.pending_tasks.push(this.taskForm.value);
+      this.taskService.saveData('pending_tasks', this.pending_tasks);
+    } else if (this.taskForm.value.status === 'progress') {
+      this.progress_tasks.push(this.taskForm.value);
+      this.taskService.saveData('progress_tasks', this.progress_tasks);
+    } else {
+      this.completed_tasks.push(this.taskForm.value);
+      this.taskService.saveData('completed_tasks', this.completed_tasks);
+    }
     this.is_operation_in_progress = false;
     this.show_new_task_modal = false;
-    console.log(this.taskForm.value);
   };
 
   viewTask(task: Task) {
     this.task = task;
   };
 
-  deleteTask(task: Task) {
-
+  deleteTask(task:Task) {
+    if(task.status === 'pending') {
+      const index_to_delete = this.pending_tasks.findIndex(t => t.id === task.id);
+      if(index_to_delete !== -1) {
+        this.pending_tasks.splice(index_to_delete, 1);
+        this.taskService.saveData('pending_tasks', this.pending_tasks);
+      }
+    } else if (task.status === 'progress') {
+      const index_to_delete = this.progress_tasks.findIndex(t => t.id === task.id);
+      if(index_to_delete !== -1) {
+        this.progress_tasks.splice(index_to_delete, 1);
+        this.taskService.saveData('progress_tasks', this.progress_tasks);
+      }
+    } else {
+      const index_to_delete = this.completed_tasks.findIndex(t => t.id === task.id);
+      if(index_to_delete !== -1) {
+        this.completed_tasks.splice(index_to_delete, 1);
+        this.taskService.saveData('completed_tasks', this.completed_tasks);
+      };
+    }
+    this.show_task = false;
   };
 
   updateTask(task: Task) {};
+
+  // function to generate a random id for each task
+  generateRandomId(): string {
+    return Math.random().toString(36).substr(2, 9); 
+  }
 
 }

@@ -10,15 +10,12 @@
             <div
                 #openlist="cdkDropList"
                 cdkDropList
-                [cdkDropListData]="progress_tasks"
+                [cdkDropListData]="pending_tasks"
                 [cdkDropListConnectedTo]="[pendinglist, closedlist]"
-                (cdkDropListDropped)="drop($event)" 
+                (cdkDropListDropped)="drop($event, 'pending')" 
                 class="tasks-container open-cont">
-                @for (task of progress_tasks; track task) {
+                @for (task of pending_tasks; track task) {
                     <div cdkDrag class="task task-open" (click)="viewTask(task); show_task = true">
-                        <!-- <div>
-                            <i class="fa fa-bars"></i>
-                        </div> -->
                         <h4>{{task.title}}</h4>
                         <p>{{task.description}}</p>
                         <div class="task-footer">
@@ -37,11 +34,11 @@
             <div
                 #pendinglist="cdkDropList"
                 cdkDropList
-                [cdkDropListData]="pending_tasks"
+                [cdkDropListData]="progress_tasks"
                 [cdkDropListConnectedTo]="[openlist, closedlist]"
-                (cdkDropListDropped)="drop($event)"
+                (cdkDropListDropped)="drop($event, 'in progress')"
                 class="tasks-container pending-cont">
-                @for (task of pending_tasks; track task) {
+                @for (task of progress_tasks; track task) {
                     <div cdkDrag class="task task-open" (click)="viewTask(task); show_task = true">
                         <h4>{{task.title}}</h4>
                         <p>{{task.description}}</p>
@@ -63,7 +60,7 @@
                 cdkDropList
                 [cdkDropListData]="completed_tasks"
                 [cdkDropListConnectedTo]="[pendinglist, openlist]"
-                (cdkDropListDropped)="drop($event)" class="tasks-container closed-cont">
+                (cdkDropListDropped)="drop($event, 'completed')" class="tasks-container closed-cont">
                 @for (task of completed_tasks; track task) {
                     <div cdkDrag class="task task-open" (click)="viewTask(task); show_task = true">
                         <h4>{{task.title}}</h4>
@@ -119,7 +116,7 @@
                 <div class="radio-input">
                     <input type="radio" formControlName="status" id="pending"  value="pending">
                     <label for="pending">Pending</label><br>
-                    <input type="radio" formControlName="status" id="progress"  value="progress">
+                    <input type="radio" formControlName="status" id="in progress"  value="progress">
                     <label for="progress">In progress</label><br>
                     <input type="radio" formControlName="status" id="completed"  value="completed">
                     <label for="completed">Completed</label><br>
