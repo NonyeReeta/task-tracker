@@ -1,8 +1,9 @@
 # TaskTracker
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.3.
+A simple Angular application to keep track of tasks. It allows you to create, read, update and delete a task. 
 
 ## Getting started
+
 Clone the repository into you local environment 
 Open the cloned repo in your prefared IDE.
 Run npm install to install dependencies.
