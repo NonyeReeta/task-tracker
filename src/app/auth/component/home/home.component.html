@@ -11,7 +11,14 @@
                 class="tasks-container open-cont">
                 <div class="search">
                     <input type="text" placeholder="Search task here" [(ngModel)]="search_pending">
-                    <i class="fa-solid fa-bars"></i>
+                    <i class="fa-solid fa-bars" (click)="toggleFilterBox('pending')"></i>
+                </div>
+                <div class="filter-box" *ngIf="filter_box === 'pending'">
+                    <ul>
+                        <li>Low</li>
+                        <li>Mid</li>
+                        <li>High</li>
+                    </ul>
                 </div>
                 @for (task of filterTasks('pending'); track task) {
                     <div class="task task-open" (click)="viewTask(task); show_task = true">
@@ -34,6 +41,14 @@
                 class="tasks-container pending-cont">
                 <div class="search">
                     <input type="text" placeholder="Search task here" [(ngModel)]="search_progress">
+                    <i class="fa-solid fa-bars" (click)="toggleFilterBox('in progress')"></i>
+                </div>
+                <div class="filter-box" *ngIf="filter_box === 'in progress'">
+                    <ul>
+                        <li>Low</li>
+                        <li>Mid</li>
+                        <li>High</li>
+                    </ul>
                 </div>
                 @for (task of filterTasks('in progress'); track task) {
                     <div class="task task-open" (click)="viewTask(task); show_task = true">
@@ -55,6 +70,14 @@
             <div class="tasks-container closed-cont">
                 <div class="search">
                     <input type="text" placeholder="Search task here" [(ngModel)]="search_completed">
+                    <i class="fa-solid fa-bars" (click)="toggleFilterBox('completed')"></i>
+                </div>
+                <div class="filter-box" *ngIf="filter_box === 'completed'">
+                    <ul>
+                        <li>Low</li>
+                        <li>Mid</li>
+                        <li>High</li>
+                    </ul>
                 </div>
                 @for (task of filterTasks('completed'); track task) {
                     <div class="task task-open" (click)="viewTask(task); show_task = true">

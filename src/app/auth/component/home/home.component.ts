@@ -39,6 +39,8 @@ export class HomeComponent {
   search_progress:string = '';
   search_completed:string = '';
 
+  filter_box:string = '';
+
 
   constructor(
     private taskService: TaskService
@@ -180,7 +182,14 @@ export class HomeComponent {
     return list_to_filter.filter(task => {
       return task.title.toLowerCase().includes(searchTerm) || task.description.toLowerCase().includes(searchTerm);
     });
-  }
+  };
   
+  toggleFilterBox(id: string) {
+    if (this.filter_box === id) {
+      this.filter_box = '';
+    } else {
+        this.filter_box = id;
+    }
+  };
 
 }
