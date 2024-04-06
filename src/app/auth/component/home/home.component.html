@@ -1,11 +1,11 @@
 <section>
     <div class="add-new">
-        <button (click)="show_new_task_modal = true">New Task</button>
+        <button (click)="show_new_task_modal = true"><i class="fa-solid fa-plus"></i> New Task</button>
     </div>
     <div class="tracker">
         <div>
             <div class="tracker-title open">
-                <p>Open</p>
+                <p>Pending</p>
             </div>
             <div
                 #openlist="cdkDropList"
@@ -15,16 +15,24 @@
                 (cdkDropListDropped)="drop($event)" 
                 class="tasks-container open-cont">
                 @for (task of progress_tasks; track task) {
-                    <div cdkDrag class="task task-open">
+                    <div cdkDrag class="task task-open" (click)="viewTask(task); show_task = true">
+                        <!-- <div>
+                            <i class="fa fa-bars"></i>
+                        </div> -->
                         <h4>{{task.title}}</h4>
                         <p>{{task.description}}</p>
+                        <div class="task-footer">
+                            <p>Due date: {{task.due_date | date: 'dd/MM/yyyy'}}</p>
+                            <p>Priority: {{task.priority | titlecase}}</p>
+                        </div>
+                        <p>Status: {{task.status | titlecase}}</p>
                     </div>
                 }
             </div>
         </div> 
         <div>
             <div class="tracker-title pending">
-                <p>Pending</p>
+                <p>In progress</p>
             </div>
             <div
                 #pendinglist="cdkDropList"
@@ -34,16 +42,21 @@
                 (cdkDropListDropped)="drop($event)"
                 class="tasks-container pending-cont">
                 @for (task of pending_tasks; track task) {
-                    <div cdkDrag class="task task-open">
+                    <div cdkDrag class="task task-open" (click)="viewTask(task); show_task = true">
                         <h4>{{task.title}}</h4>
                         <p>{{task.description}}</p>
+                        <div class="task-footer">
+                            <p>Due date: {{task.due_date | date: 'dd/MM/yyyy'}}</p>
+                            <p>Priority: {{task.priority | titlecase}}</p>
+                        </div>
+                        <p>Status: {{task.status | titlecase}}</p>
                     </div>
                 }
             </div>
         </div>
         <div>
             <div class="tracker-title closed">
-                <p>Closed</p>
+                <p>Completed</p>
             </div>
             <div
                 #closedlist="cdkDropList"
@@ -52,10 +65,16 @@
                 [cdkDropListConnectedTo]="[pendinglist, openlist]"
                 (cdkDropListDropped)="drop($event)" class="tasks-container closed-cont">
                 @for (task of completed_tasks; track task) {
-                    <div cdkDrag class="task task-open">
+                    <div cdkDrag class="task task-open" (click)="viewTask(task); show_task = true">
                         <h4>{{task.title}}</h4>
                         <p>{{task.description}}</p>
+                        <div class="task-footer">
+                            <p>Due date: {{task.due_date | date: 'dd/MM/yyyy'}}</p>
+                            <p>Priority: {{task.priority | titlecase}}</p>
+                        </div>
+                        <p>Status: {{task.status | titlecase}}</p>
                     </div>
+                    
                 }
             </div>
         </div>
@@ -64,50 +83,73 @@
 
 </section>
 
-    <!-- new task modal -->
-<div class="modal-holder" *ngIf="!show_new_task_modal">
-    <i class="fa-solid fa-xmark"></i>
+<!-- new task modal -->
+<div class="modal-holder" *ngIf="show_new_task_modal">
     <div class="form-holder">
+        <div class="close">
+            <i class="fa-solid fa-xmark" (click)="show_new_task_modal = false"></i>
+        </div>
         <h2>New task</h2>
-        <form class="">
+        <form [formGroup]="taskForm">
             <div class="form-input mb-3">
                 <label for="title">Title</label>
-                <input type="text" placeholder="Title" class="form-control"  autocomplete="off">
+                <input type="text" placeholder="Title" class="form-control"  autocomplete="off" formControlName="title"  [ngClass]="{'required': taskForm.get('title')?.touched && taskForm.get('title')?.invalid}">
             </div>
             <div class="form-input mb-3">
                 <label for="desc">Description</label>
-                <textarea name="desc" id="desc" cols="30" rows="" placeholder="Enter task description here" class="form-control"></textarea>
+                <textarea name="desc" id="desc" cols="30" rows="" placeholder="Enter task description here" class="form-control" formControlName="description"  [ngClass]="{'required': taskForm.get('description')?.touched && taskForm.get('description')?.invalid}"></textarea>
             </div>
             <div class="form-input mb-3">
                 <label for="date">Due date</label>
-                <input type="date" id="date">
+                <input type="date" id="date" formControlName="due_date">
             </div>
             <div class="form-input mb-3">
                 <label for="date">Priority</label>
                 <div class="radio-input">
-                    <input type="radio" id="high" name="option" value="high">
+                    <input type="radio" formControlName="priority" id="high"  value="high">
                     <label for="high">High</label><br>
-                    <input type="radio" id="mid" name="option" value="mid">
+                    <input type="radio" formControlName="priority" id="mid"  value="mid">
                     <label for="mid">Mid</label><br>
-                    <input type="radio" id="low" name="option" value="low">
+                    <input type="radio" formControlName="priority" id="low"  value="low">
                     <label for="low">Low</label><br>
                 </div>
             </div>
             <div class="form-input mb-3">
                 <label for="date">Status</label>
                 <div class="radio-input">
-                    <input type="radio" id="pending" name="option" value="pending">
+                    <input type="radio" formControlName="status" id="pending"  value="pending">
                     <label for="pending">Pending</label><br>
-                    <input type="radio" id="progress" name="option" value="progress">
+                    <input type="radio" formControlName="status" id="progress"  value="progress">
                     <label for="progress">In progress</label><br>
-                    <input type="radio" id="completed" name="option" value="completed">
+                    <input type="radio" formControlName="status" id="completed"  value="completed">
                     <label for="completed">Completed</label><br>
                 </div>
             </div>
         </form>
         <div  class="add-btn">
-            <button>Add</button>
+            <button (click)="AddTask()" [disabled]="!taskForm.valid || is_operation_in_progress"><i class="fa-solid fa-floppy-disk"></i> Add</button>
         </div>
     </div>
 </div>
 
+<!-- view task -->
+<div class="modal-holder" *ngIf="show_task">
+    <div class="form-holder">
+        <div class="close">
+            <i class="fa-solid fa-xmark" (click)="show_task = false"></i>
+        </div>
+        <div class="task-view">
+            <h4>{{task.title}}</h4>
+            <p>{{task.description}}</p>
+            <div class="task-footer">
+                <p>Due date: {{task.due_date | date: 'dd/MM/yyyy'}}</p>
+                <p>Priority: {{task.priority | titlecase}}</p>
+            </div>
+            <p>Status: {{task.status | titlecase}}</p>
+        </div>
+        <div class="task-action">
+            <button class="delete-btn" (click)="deleteTask(task)">Delete</button>
+            <button class="update-btn" (click)="updateTask(task)">Update</button>
+        </div>
+    </div>
+</div>
