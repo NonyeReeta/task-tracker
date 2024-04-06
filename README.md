@@ -3,17 +3,20 @@
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.3.
 
 ## Getting started
-Clone the repository into you local 
+Clone the repository into you local environment 
+Open the cloned repo in your prefared IDE.
+Run npm install to install dependencies.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+The application will automatically reload if you change any of the source files.
 
-## Code scaffolding
+## Navigating the application 
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Running the application will get you to that dashboard (localhost:4200/dashboard) 
+The dashboard will display all tasks. 
+Click on the "Add Task" button to open a modal where you can fill out the task details before click "save". 
+Click on a specific task to view/read, update or delete a task.
+You can filter through all tasks by a search query or the status of a task. 
 
 ## Running unit tests
 
