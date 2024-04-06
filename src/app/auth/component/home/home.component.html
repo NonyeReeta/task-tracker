@@ -11,6 +11,7 @@
                 class="tasks-container open-cont">
                 <div class="search">
                     <input type="text" placeholder="Search task here" [(ngModel)]="search_pending">
+                    <i class="fa-solid fa-bars"></i>
                 </div>
                 @for (task of filterTasks('pending'); track task) {
                     <div class="task task-open" (click)="viewTask(task); show_task = true">

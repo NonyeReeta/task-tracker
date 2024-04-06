@@ -118,7 +118,7 @@ export class HomeComponent {
       due_date: new FormControl(this.task_to_edit.due_date, Validators.required),
       priority: new FormControl(this.task_to_edit.priority, Validators.required),
       status: new FormControl(this.task_to_edit.status, Validators.required),
-      id: new FormControl(this.generateRandomId(), Validators.required)
+      id: new FormControl(this.task_to_edit.id, Validators.required)
     });
     this.show_new_task_modal = true;
   };
