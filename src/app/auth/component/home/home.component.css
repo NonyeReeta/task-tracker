@@ -35,6 +35,20 @@ section {
     cursor: pointer;
 }
 
+.search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.search > input {
+    background: none;
+    color: #fff;
+    padding: 5px;
+    border-radius: 8px;
+}
+
 .open {
     background-color: #030637;
 }

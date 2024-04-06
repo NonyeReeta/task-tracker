@@ -23,7 +23,7 @@ export class LandingComponent {
       } else {
         this.router.navigate(['/login']);
       }
-    }, 3000);
+    }, 2000);
 
   }
 }

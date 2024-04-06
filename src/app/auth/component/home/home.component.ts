@@ -1,13 +1,7 @@
 import { Component } from '@angular/core';
-import {
-  CdkDragDrop,
-  moveItemInArray,
-  transferArrayItem,
-  CdkDrag,
-  CdkDropList
-} from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TaskService } from 'src/app/services/task.service';
 
@@ -23,7 +17,7 @@ interface Task {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CdkDropList, CdkDrag, CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -40,33 +34,12 @@ export class HomeComponent {
   show_new_task_modal:boolean = false;
   is_operation_in_progress:boolean = false;
 
-  task_to_edit:any = {};;
- 
+  task_to_edit:any = {};
+  search_query:string = '';
+  search_pending:string = '';
+  search_progress:string = '';
+  search_completed:string = '';
 
-  // function to detect drop and change task status
-  drop(event: CdkDragDrop<Task[]>, new_status: string) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
-      console.log(event)
-      let t:Task | undefined = event.container.data.at(-1);
-      console.log(t)
-      if(t !== undefined) {
-        // remove task from its list
-        this.deleteTask(t);
-        // update the task status and add to new list
-        // t.status = new_status;
-        // this.dropChangeStatus(new_status);
-      }
-   
-    }
-  };
 
   constructor(
     private taskService: TaskService
@@ -95,7 +68,6 @@ export class HomeComponent {
   };
 
   AddTask() {
-    console.log(this.taskForm.value);
     if(Object.keys(this.task_to_edit).length > 0) {
       this.deleteTask(this.task_to_edit);
     }
@@ -113,10 +85,10 @@ export class HomeComponent {
     }
     this.is_operation_in_progress = false;
     this.show_new_task_modal = false;
+    this.taskForm.reset();
   };
 
   deleteTask(task:Task) {
-    console.log(task)
     if(task.status === 'pending') {
       const index_to_delete = this.pending_tasks.findIndex(t => t.id === task.id);
       if(index_to_delete !== -1) {
@@ -174,5 +146,42 @@ export class HomeComponent {
     if(Object.keys(this.task_to_edit).length > 0) return this.task_to_edit.id;
     return Math.random().toString(36).substr(2, 9); 
   }
+
+  // filter tasks based on query input
+  filterTasks(list_type: string): any[] {
+    let list_to_filter: any[];
+    let search_query: string;
+  
+    // Determine which list and search query to use based on the list type
+    switch (list_type) {
+      case 'pending':
+        list_to_filter = this.pending_tasks;
+        search_query = this.search_pending;
+        break;
+      case 'in progress':
+        list_to_filter = this.progress_tasks;
+        search_query = this.search_progress;
+        break;
+      case 'completed':
+        list_to_filter = this.completed_tasks;
+        search_query = this.search_completed;
+        break;
+      default:
+        return [];
+    }
+  
+    // If search query is empty or whitespace, return the original list without filtering
+    if (!search_query.trim()) {
+      return list_to_filter;
+    }
+  
+    // Otherwise, filter the list based on the search query
+    const searchTerm = search_query.toLowerCase().trim();
+  
+    return list_to_filter.filter(task => {
+      return task.title.toLowerCase().includes(searchTerm) || task.description.toLowerCase().includes(searchTerm);
+    });
+  }
+  
 
 }
