@@ -40,6 +40,7 @@ export class HomeComponent {
   search_completed:string = '';
 
   filter_box:string = '';
+  priority_filter:string = '';
 
 
   constructor(
@@ -152,10 +153,9 @@ export class HomeComponent {
   filterTasks(list_type: string): any[] {
     let list_to_filter: any[];
     let search_query: string;
-  
     // identify whuch query and list to filter
     switch (list_type) {
-      case 'pending':
+      case 'pending' :
         list_to_filter = this.pending_tasks;
         search_query = this.search_pending;
         break;
@@ -173,16 +173,30 @@ export class HomeComponent {
   
     // If search query is empty or whitespace, return the original list without filtering
     if (!search_query.trim()) {
+      if (this.priority_filter) {
+        return list_to_filter.filter(task => task.priority === this.priority_filter);
+      }
       return list_to_filter;
     }
-  
-    // Otherwise, filter the list based on the search query
-    const searchTerm = search_query.toLowerCase().trim();
-  
-    return list_to_filter.filter(task => {
+
+    // filter the list based on the search query
+    let filtered_list =  list_to_filter.filter(task => {
+      const searchTerm = search_query.toLowerCase().trim();
       return task.title.toLowerCase().includes(searchTerm) || task.description.toLowerCase().includes(searchTerm);
     });
+
+    if (this.priority_filter) {
+      filtered_list = filtered_list.filter(task => task.priority === this.priority_filter);
+    }
+
+    return filtered_list;
   };
+
+  setPriorityFilter(priority: string, list_type: string): void {
+    this.priority_filter = priority;
+    this.filterTasks(list_type);
+}
+
   
   toggleFilterBox(id: string) {
     if (this.filter_box === id) {

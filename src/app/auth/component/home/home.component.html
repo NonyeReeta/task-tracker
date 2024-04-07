@@ -15,9 +15,9 @@
                 </div>
                 <div class="filter-box" *ngIf="filter_box === 'pending'">
                     <ul>
-                        <li>Low</li>
-                        <li>Mid</li>
-                        <li>High</li>
+                        <li (click)="filter_box = ''; setPriorityFilter('low', 'pending')">Low</li>
+                        <li (click)="filter_box = ''; setPriorityFilter('mid', 'pending')">Mid</li>
+                        <li (click)="filter_box = ''; setPriorityFilter('high', 'pending')">High</li>
                     </ul>
                 </div>
                 @for (task of filterTasks('pending'); track task) {
@@ -45,9 +45,9 @@
                 </div>
                 <div class="filter-box" *ngIf="filter_box === 'in progress'">
                     <ul>
-                        <li>Low</li>
-                        <li>Mid</li>
-                        <li>High</li>
+                        <li (click)="filter_box = ''; setPriorityFilter('low', 'in progress')">Low</li>
+                        <li (click)="filter_box = ''; setPriorityFilter('mid', 'in progress')">Mid</li>
+                        <li (click)="filter_box = ''; setPriorityFilter('high', 'in progress')">High</li>
                     </ul>
                 </div>
                 @for (task of filterTasks('in progress'); track task) {
@@ -74,9 +74,9 @@
                 </div>
                 <div class="filter-box" *ngIf="filter_box === 'completed'">
                     <ul>
-                        <li>Low</li>
-                        <li>Mid</li>
-                        <li>High</li>
+                        <li (click)="filter_box = ''; setPriorityFilter('low', 'completed')">Low</li>
+                        <li (click)="filter_box = ''; setPriorityFilter('mid', 'completed')">Mid</li>
+                        <li (click)="filter_box = ''; setPriorityFilter('high', 'completed')">High</li>
                     </ul>
                 </div>
                 @for (task of filterTasks('completed'); track task) {
