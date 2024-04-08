@@ -126,16 +126,6 @@ export class HomeComponent {
     this.show_new_task_modal = true;
   };
 
-  dropChangeStatus(new_status: string) {
-    if(new_status === 'pending') {
-      this.taskService.saveData('pending_tasks', this.pending_tasks);
-    } else if (new_status === 'in progress') {
-      this.taskService.saveData('progress_tasks', this.progress_tasks);
-    } else {
-      this.taskService.saveData('completed_tasks', this.completed_tasks);
-    }
-  };
-
 
   viewTask(task: Task) {
     this.task = task;
